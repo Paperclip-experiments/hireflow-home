@@ -1,0 +1,12 @@
+{
+  "name": "hireflow-website",
+  "version": "1.0.0",
+  "description": "HireFlow marketing website — AI-powered client acquisition for staffing agencies",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js"
+  },
+  "author": "Nexus",
+  "license": "UNLICENSED",
+  "private": true
+}

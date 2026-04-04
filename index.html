@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireFlow — AI-Powered Client Acquisition for Staffing Agencies</title>
+  <meta name="description" content="HireFlow helps staffing agencies find new clients with AI-powered prospecting, outbound automation, and pipeline management. Built for agencies with 5-50 recruiters.">
+  <meta name="keywords" content="staffing agency client acquisition, staffing BD automation, recruitment agency business development, AI prospecting staffing agencies">
+  <meta property="og:title" content="HireFlow — AI-Powered Client Acquisition for Staffing Agencies">
+  <meta property="og:description" content="Find companies actively hiring. Automate your outreach. Close more clients. The BD engine built for staffing agencies.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hireflow.ai">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HireFlow — The BD Engine for Staffing Agencies">
+  <meta name="twitter:description" content="AI-powered client acquisition platform for SMB staffing agencies. Find hiring signals, automate outreach, close more clients.">
+  <link rel="canonical" href="https://hireflow.ai">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Structured Data: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "HireFlow",
+    "url": "https://hireflow.ai",
+    "description": "AI-powered client acquisition and pipeline management platform for staffing agencies",
+    "foundingDate": "2026",
+    "sameAs": []
+  }
+  </script>
+
+  <!-- Structured Data: Product -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "HireFlow",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "AI-powered client acquisition and pipeline management tool for SMB staffing and recruitment agencies",
+    "offers": [
+      { "@type": "Offer", "name": "Starter", "price": "79", "priceCurrency": "USD", "billingIncrement": "P1M" },
+      { "@type": "Offer", "name": "Growth", "price": "149", "priceCurrency": "USD", "billingIncrement": "P1M" },
+      { "@type": "Offer", "name": "Agency", "price": "249", "priceCurrency": "USD", "billingIncrement": "P1M" }
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is HireFlow?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HireFlow is an AI-powered client acquisition and pipeline management platform built specifically for SMB staffing and recruitment agencies. It helps agencies find companies with active hiring needs, automate BD outreach, manage client pipelines, and deliver candidates through branded portals."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is HireFlow different from an ATS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An ATS (Applicant Tracking System) manages candidates. HireFlow manages clients. Most staffing tools focus on the candidate side — sourcing, screening, and placement tracking. HireFlow focuses on the business development side — finding new clients, automating outreach, and managing your client pipeline. It works alongside your existing ATS, not as a replacement."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who is HireFlow for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HireFlow is built for SMB staffing agencies with 5-50 recruiters, boutique recruitment firms, independent recruiters scaling their operations, and niche/vertical staffing agencies in tech, healthcare, finance, and other industries."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does HireFlow replace Bullhorn or other CRMs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. HireFlow integrates with your existing ATS and CRM — including Bullhorn, JobAdder, and Recruit CRM. It adds the client acquisition and BD automation layer that most ATS platforms lack."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does AI prospecting work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HireFlow monitors job boards, funding announcements, and company growth data to identify companies with active hiring intent. It scores and ranks these prospects by urgency, helping your BD team reach decision-makers before competitors even know there's an opportunity."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does HireFlow cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HireFlow offers three tiers: Starter at $79/month per seat (prospecting, email outreach, basic pipeline), Growth at $149/month per seat (adds client portal, LinkedIn automation, analytics), and Agency at $249/month per seat (adds API access, custom integrations, priority support). Volume discounts available for 10+ seats. Free 14-day trial, no credit card required."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --primary-light: #eef2ff;
+      --accent: #059669;
+      --accent-hover: #047857;
+      --text: #111827;
+      --text-secondary: #6b7280;
+      --bg: #ffffff;
+      --bg-alt: #f9fafb;
+      --border: #e5e7eb;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-size: 1.375rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.15s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+    }
+    .btn-secondary:hover { background: var(--primary-light); }
+    .btn-large { padding: 14px 28px; font-size: 1rem; }
+
+    /* ---- HERO ---- */
+    .hero {
+      padding: 140px 0 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+    .hero h1 span { color: var(--primary); }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .hero-metrics {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      margin-top: 56px;
+      flex-wrap: wrap;
+    }
+    .hero-metric { text-align: center; }
+    .hero-metric strong {
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .hero-metric span {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* ---- SECTION SHARED ---- */
+    section { padding: 80px 0; }
+    .section-alt { background: var(--bg-alt); }
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 48px;
+    }
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+    }
+
+    /* ---- PROBLEM ---- */
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .problem-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .problem-icon {
+      width: 48px;
+      height: 48px;
+      background: #fef2f2;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+    .problem-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .problem-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* ---- FEATURES ---- */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      transition: box-shadow 0.2s;
+    }
+    .feature-card:hover { box-shadow: var(--shadow-lg); }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+    .feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ---- HOW IT WORKS ---- */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      counter-reset: step;
+    }
+    .step {
+      text-align: center;
+      counter-increment: step;
+    }
+    .step-number {
+      width: 56px;
+      height: 56px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    .step h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .step p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    /* ---- SOCIAL PROOF ---- */
+    .proof-stat {
+      text-align: center;
+      padding: 40px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 16px;
+      margin-bottom: 36px;
+    }
+    .proof-stat strong {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .proof-stat span { font-size: 1.1rem; opacity: 0.9; }
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .testimonial {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .testimonial p {
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+    .testimonial-author {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .testimonial-role {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* ---- PRICING ---- */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .pricing-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px;
+      position: relative;
+    }
+    .pricing-card.featured {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 16px;
+      border-radius: 100px;
+    }
+    .pricing-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .pricing-price span {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .pricing-desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin: 12px 0 24px;
+    }
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+    .pricing-features li {
+      padding: 6px 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    .pricing-features li::before {
+      content: "\2713";
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    /* ---- INTEGRATIONS ---- */
+    .integrations-list {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .integration-item {
+      padding: 16px 24px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* ---- FAQ ---- */
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+    .faq-question {
+      font-weight: 600;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-question::after {
+      content: "+";
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-question::after {
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-top: 12px;
+    }
+
+    /* ---- FINAL CTA ---- */
+    .final-cta {
+      background: var(--primary);
+      color: #fff;
+      text-align: center;
+      padding: 80px 24px;
+    }
+    .final-cta h2 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .final-cta p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+    .final-cta .btn-primary {
+      background: #fff;
+      color: var(--primary);
+    }
+    .final-cta .btn-primary:hover {
+      background: #f0f0f0;
+    }
+    .final-cta .btn-secondary {
+      color: #fff;
+      border-color: rgba(255,255,255,0.4);
+    }
+    .final-cta .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      background: #111827;
+      color: #9ca3af;
+      padding: 60px 24px 36px;
+    }
+    .footer-grid {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+    .footer-brand .logo { color: #fff; }
+    .footer-brand p {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .footer-col h4 {
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      color: #9ca3af;
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 4px 0;
+      transition: color 0.15s;
+    }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      max-width: 1140px;
+      margin: 36px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1f2937;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* ---- EMAIL CAPTURE ---- */
+    .email-form {
+      display: flex;
+      gap: 12px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    .email-form input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+    }
+    .email-form input:focus {
+      border-color: var(--primary);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 100px 0 60px; }
+      .hero-metrics { gap: 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .email-form { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">HireFlow</a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="blog/">Blog</a>
+        <a href="#signup" class="btn btn-primary">Start Free Trial</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Built for staffing agencies</div>
+      <h1>Stop chasing clients.<br><span>Start closing them.</span></h1>
+      <p>AI-powered client acquisition for staffing agencies. Find companies actively hiring, automate your outreach, and manage your pipeline &mdash; all in one platform.</p>
+      <div class="hero-ctas">
+        <a href="#signup" class="btn btn-primary btn-large">Start Free Trial</a>
+        <a href="#how-it-works" class="btn btn-secondary btn-large">See How It Works</a>
+      </div>
+      <div class="hero-metrics">
+        <div class="hero-metric">
+          <strong>3.5x</strong>
+          <span>Revenue growth with AI BD</span>
+        </div>
+        <div class="hero-metric">
+          <strong>23%</strong>
+          <span>of agencies struggle to find clients</span>
+        </div>
+        <div class="hero-metric">
+          <strong>82%</strong>
+          <span>Only 18% have client portals</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>Your ATS manages candidates. Who manages your clients?</h2>
+        <p>Finding new clients is the #1 challenge for staffing agencies in 2026. Existing tools weren't built to solve it.</p>
+      </div>
+      <div class="problems-grid">
+        <div class="problem-card">
+          <div class="problem-icon">&#x1F9E9;</div>
+          <h3>Your ATS manages candidates, not clients</h3>
+          <p>Bullhorn, JobAdder, and Zoho Recruit are great for tracking candidates. But they weren't designed for client acquisition and business development.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">&#x23F0;</div>
+          <h3>Manual BD doesn't scale</h3>
+          <p>Cold calls, LinkedIn messages, networking events. Your BD team is doing the same manual work they did 10 years ago. Growth means hiring more reps, not working smarter.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">&#x1F4B0;</div>
+          <h3>Enterprise tools are overbuilt and overpriced</h3>
+          <p>Bullhorn's full suite costs thousands per month. Apollo.io isn't staffing-specific. You need a BD tool designed for how agencies actually sell.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Everything you need to find and close staffing clients</h2>
+        <p>HireFlow combines AI prospecting, outreach automation, pipeline management, and client portals into one platform built for staffing agencies.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F50D;</div>
+          <h3>AI-Powered Prospecting</h3>
+          <p>Identify companies actively hiring by monitoring job board signals, funding announcements, and growth data. Reach them before your competitors even know there's an opportunity.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F4E7;</div>
+          <h3>Outbound BD Automation</h3>
+          <p>Multi-channel sequences across email, LinkedIn, and calls. AI-personalized outreach based on each prospect's hiring signals, industry, and company context.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F4CA;</div>
+          <h3>Pipeline Dashboard</h3>
+          <p>Real-time visibility into your entire client pipeline. Track deals by stage, forecast revenue, log activities, and see which outreach sequences are driving results.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F310;</div>
+          <h3>Branded Client Portal</h3>
+          <p>Give clients a branded portal to view submitted candidates, provide feedback, and track placement progress. Only 18% of agencies offer this &mdash; stand out from day one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" class="section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>Get started in three steps</h2>
+        <p>From signal to signed client in a fraction of the time.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Discover prospects</h3>
+          <p>HireFlow scans job boards, funding databases, and growth signals to surface companies with active hiring needs &mdash; scored and ranked by urgency.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Launch outreach</h3>
+          <p>Pick from staffing-specific templates or create your own. AI personalizes each message using the prospect's hiring data, industry, and company context.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Close and deliver</h3>
+          <p>Track every deal through your pipeline. Once a client signs, use the branded portal to submit candidates and manage the relationship long-term.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section>
+    <div class="container">
+      <div class="proof-stat">
+        <strong>3.5x revenue growth</strong>
+        <span>Staffing agencies using AI-powered business development report 3.5x revenue growth (Bullhorn)</span>
+      </div>
+      <div class="testimonials">
+        <div class="testimonial">
+          <p>"We were spending 60% of our time on cold outreach and only 40% on actual recruiting. HireFlow flipped that ratio. Our BD pipeline filled itself."</p>
+          <div class="testimonial-author">Sarah T.</div>
+          <div class="testimonial-role">Owner, TechStaff Solutions (22 recruiters)</div>
+        </div>
+        <div class="testimonial">
+          <p>"The hiring intent signals are a game-changer. We reached a company three days after they started posting engineer roles. Signed a $180K annual contract."</p>
+          <div class="testimonial-author">Marcus R.</div>
+          <div class="testimonial-role">BD Director, PrimeHire Staffing</div>
+        </div>
+        <div class="testimonial">
+          <p>"The client portal alone won us repeat business. Clients love the transparency, and it saved us dozens of status-update emails every week."</p>
+          <div class="testimonial-author">Lisa K.</div>
+          <div class="testimonial-role">Managing Partner, NorthBridge Recruiting</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>Simple, transparent pricing</h2>
+        <p>Start with a free 14-day trial. No credit card required. Scale as you grow.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Starter</h3>
+          <div class="pricing-price">$79<span>/mo per seat</span></div>
+          <p class="pricing-desc">For agencies starting to systematize their BD.</p>
+          <ul class="pricing-features">
+            <li>AI prospect discovery</li>
+            <li>Email outreach sequences</li>
+            <li>Basic client pipeline</li>
+            <li>Prospect scoring</li>
+            <li>Email support</li>
+          </ul>
+          <a href="#signup" class="btn btn-secondary" style="width:100%;">Start Free Trial</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Most Popular</div>
+          <h3>Growth</h3>
+          <div class="pricing-price">$149<span>/mo per seat</span></div>
+          <p class="pricing-desc">For agencies ready to scale their client base.</p>
+          <ul class="pricing-features">
+            <li>Everything in Starter</li>
+            <li>Branded client portal</li>
+            <li>LinkedIn automation</li>
+            <li>Advanced analytics</li>
+            <li>Multi-channel sequences</li>
+            <li>Priority support</li>
+          </ul>
+          <a href="#signup" class="btn btn-primary" style="width:100%;">Start Free Trial</a>
+        </div>
+        <div class="pricing-card">
+          <h3>Agency</h3>
+          <div class="pricing-price">$249<span>/mo per seat</span></div>
+          <p class="pricing-desc">For high-volume agencies needing custom workflows.</p>
+          <ul class="pricing-features">
+            <li>Everything in Growth</li>
+            <li>API access</li>
+            <li>Custom integrations</li>
+            <li>ATS connectors</li>
+            <li>Dedicated account manager</li>
+            <li>Custom onboarding</li>
+          </ul>
+          <a href="#signup" class="btn btn-secondary" style="width:100%;">Start Free Trial</a>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:20px; color:var(--text-secondary); font-size:0.9rem;">10+ seats? <a href="#signup" style="color:var(--primary);">Talk to us</a> for volume pricing.</p>
+    </div>
+  </section>
+
+  <!-- INTEGRATIONS -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2>Works with your existing stack</h2>
+        <p>HireFlow integrates with the tools you already use. No rip-and-replace.</p>
+      </div>
+      <div class="integrations-list">
+        <div class="integration-item">Bullhorn</div>
+        <div class="integration-item">JobAdder</div>
+        <div class="integration-item">Recruit CRM</div>
+        <div class="integration-item">Gmail</div>
+        <div class="integration-item">Outlook</div>
+        <div class="integration-item">LinkedIn</div>
+        <div class="integration-item">Google Calendar</div>
+        <div class="integration-item">Slack</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question">What is HireFlow?</div>
+          <div class="faq-answer">HireFlow is an AI-powered client acquisition and pipeline management platform built specifically for SMB staffing and recruitment agencies. It helps you find companies with active hiring needs, automate BD outreach, manage your client pipeline, and deliver candidates through branded portals.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">How is HireFlow different from an ATS?</div>
+          <div class="faq-answer">An ATS manages candidates. HireFlow manages clients. Most staffing tools focus on sourcing, screening, and placement tracking. HireFlow focuses on the business development side &mdash; finding new clients, automating outreach, and managing your client pipeline. It works alongside your existing ATS, not as a replacement.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">Does HireFlow replace Bullhorn?</div>
+          <div class="faq-answer">No. HireFlow integrates with Bullhorn, JobAdder, Recruit CRM, and other ATS platforms. It adds the client acquisition and BD automation layer that most ATS platforms lack. Think of it as your BD engine that feeds clients into your existing recruiting workflow.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">How does AI prospecting work?</div>
+          <div class="faq-answer">HireFlow monitors job boards, funding announcements, and company growth data to identify companies with active hiring intent. Each prospect is scored and ranked by urgency, so your BD team can focus on the companies most likely to convert right now.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">How long does setup take?</div>
+          <div class="faq-answer">Most agencies are up and running within a day. Connect your email, import your existing prospects (optional), and start discovering new ones immediately. No engineering required.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">Is my data secure?</div>
+          <div class="faq-answer">Yes. HireFlow uses bank-grade encryption (AES-256), SOC 2 Type II compliance, and GDPR-compliant data handling. Your client data is isolated per account and never shared.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta" id="signup">
+    <h2>Ready to stop chasing clients?</h2>
+    <p>Join staffing agencies that are growing 3.5x faster with AI-powered business development.</p>
+    <div style="margin-bottom:24px;">
+      <form class="email-form" onsubmit="event.preventDefault(); alert('Thank you! We will be in touch shortly.');">
+        <input type="email" placeholder="Enter your work email" required>
+        <button type="submit" class="btn btn-primary btn-large">Start Free Trial</button>
+      </form>
+    </div>
+    <p style="font-size:0.85rem; opacity:0.7;">14-day free trial &middot; No credit card required &middot; Cancel anytime</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">HireFlow</a>
+        <p>AI-powered client acquisition for staffing agencies. Find clients faster, close them smarter.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#">Integrations</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="blog/">Blog</a>
+        <a href="#">Help Center</a>
+        <a href="#">API Docs</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 HireFlow. All rights reserved.</span>
+      <span>Built by Nexus</span>
+    </div>
+  </footer>
+
+  <script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        q.parentElement.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
