@@ -1,6 +1,6 @@
-# HireFlow Website
+# HireFlow
 
-HireFlow is an AI-powered client acquisition and pipeline management platform for SMB staffing agencies (5-50 recruiters). This repository contains the marketing website: landing page, blog, and a local development server.
+HireFlow is an AI-powered client acquisition and pipeline management platform for SMB staffing agencies (5-50 recruiters). This repository contains the complete product: marketing website, full-stack application (backend API + React frontend), and blog content.
 
 ## Project Structure
 
@@ -13,18 +13,46 @@ paper-clip/
   blog/
     index.html                  # Blog listing page
     why-your-ats-is-not-a-bd-tool.html
-                                # Blog post: Why your ATS is not a BD tool
     staffing-agency-client-acquisition-blueprint-2026.html
-                                # Blog post: Client acquisition blueprint for 2026
+  app/                          # HireFlow Application (Backend + Frontend)
+    src/                        # Backend source (Express + TypeScript)
+      server.ts                 # Express server entry point
+      db.ts                     # Prisma client
+      middleware/auth.ts        # JWT auth with multi-tenancy
+      middleware/error.ts       # Error handler
+      routes/auth.ts            # Auth endpoints (register, login, me, invite)
+      routes/prospects.ts       # Prospect CRUD with batch import
+      routes/deals.ts           # Deal pipeline management
+      routes/signals.ts         # Signal detection, sources, scans, scoring
+      routes/sequences.ts       # Email sequence builder, enrollment
+      routes/portal.ts          # Client portal, submissions, invites
+      services/scoring.ts       # Signal scoring with type weights + decay
+      tests/api.test.ts         # 25 integration tests (vitest + supertest)
+    client/                     # Frontend (React + TypeScript + Vite)
+      src/pages/Login.tsx       # Login/register form
+      src/pages/Dashboard.tsx   # Stats cards overview
+      src/pages/Prospects.tsx   # Prospect table with scoring
+      src/pages/Pipeline.tsx    # Kanban deal pipeline
+      src/pages/Sequences.tsx   # Email sequence management
+      src/pages/Signals.tsx     # Signal dashboard with stats
+      src/lib/api.ts            # API client with JWT auth
+      src/lib/auth.tsx          # Auth context provider
+      src/components/Layout.tsx # Sidebar navigation
+    prisma/
+      schema.prisma             # 12 models, 9 enums
+      migrations/               # Database migrations
+      seed.ts                   # Seed data (agency, users, prospects)
+    docker-compose.yml          # PostgreSQL 16 + Redis 7
 ```
 
 ## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ (any recent version works)
+- Node.js 18+
+- Docker (for PostgreSQL and Redis)
 
-### Run Locally
+### Marketing Website
 
 ```bash
 cd /Users/utkarsh/IdeaProjects/paper-clip
@@ -33,10 +61,39 @@ node serve.js
 
 The website will be available at **http://localhost:8080/**.
 
-Or with npm:
+### HireFlow Application
 
 ```bash
-npm start
+cd app
+
+# Start database services
+docker compose up -d
+
+# Install dependencies
+npm install
+cd client && npm install && cd ..
+
+# Set up environment
+cp .env.example .env
+
+# Run database migrations and seed
+npx prisma migrate dev
+npx prisma db seed
+
+# Start backend (port 3001)
+npx tsx src/server.ts
+
+# In another terminal, start frontend (port 5173)
+cd client && npx vite
+```
+
+### Run Tests
+
+```bash
+cd app
+npx vitest run    # 25 integration tests
+npx tsc --noEmit  # Type check backend
+cd client && npx tsc --noEmit  # Type check frontend
 ```
 
 ### Pages
@@ -161,6 +218,31 @@ HireFlow targets SMB staffing agencies (5-50 recruiters) with:
 | Starter | $79/seat/mo | Solo BD reps | 500 prospects/mo, 3 sequences |
 | Growth | $149/seat/mo | Small teams | 2,000 prospects/mo, unlimited sequences, CRM sync |
 | Agency | $249/seat/mo | Full agencies | Unlimited prospects, client portal, API access, dedicated CSM |
+
+## API Endpoints (~45 total)
+
+| Module | Endpoints | Description |
+|--------|-----------|-------------|
+| `/api/auth` | 4 | Register, login, me, invite user |
+| `/api/prospects` | 6 | CRUD, batch import, scoring |
+| `/api/deals` | 6 | CRUD, pipeline view, summary/forecast |
+| `/api/signals` | 13 | Sources CRUD, signals CRUD, batch import, rescoring, scans, stats |
+| `/api/sequences` | 8 | CRUD, enroll prospect, advance step, update enrollment, stats |
+| `/api/portal` | 8 | Invite client, submissions CRUD, magic link, client view, feedback |
+
+## Database Schema (Prisma)
+
+12 models: Agency, User, Prospect, Signal, SignalSource, ScanRun, Deal, Sequence, SequenceStep (implicit), Enrollment, Submission, PortalInvite
+
+9 enums: UserRole, ProspectStatus, SignalType, DealStage, SequenceStatus, EnrollmentStatus, SubmissionStatus, PortalInviteStatus, ScanRunStatus
+
+## Tech Stack
+
+- **Backend**: Node.js, TypeScript, Express, Prisma ORM
+- **Frontend**: React, TypeScript, Vite
+- **Database**: PostgreSQL 16, Redis 7
+- **Testing**: Vitest, Supertest (25 integration tests)
+- **Auth**: JWT with multi-tenant agency scoping
 
 ## Company
 

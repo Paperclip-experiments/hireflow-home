@@ -1,0 +1,334 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Multi-tenancy ──────────────────────────────────────────
+
+model Agency {
+  id        String   @id @default(uuid())
+  name      String
+  domain    String?
+  plan      Plan     @default(STARTER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users      User[]
+  prospects  Prospect[]
+  deals      Deal[]
+  signals    Signal[]
+  sources    SignalSource[]
+  scanRuns   ScanRun[]
+  sequences  Sequence[]
+  submissions Submission[]
+  portalInvites PortalInvite[]
+}
+
+enum Plan {
+  STARTER
+  GROWTH
+  SCALE
+}
+
+// ── Auth & Users ───────────────────────────────────────────
+
+model User {
+  id           String   @id @default(uuid())
+  agencyId     String
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(BD_REP)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  agency       Agency   @relation(fields: [agencyId], references: [id])
+  deals        Deal[]
+  enrollments  Enrollment[]
+
+  @@index([agencyId])
+}
+
+enum UserRole {
+  ADMIN
+  BD_REP
+  RECRUITER
+}
+
+// ── Prospects (companies with hiring intent) ───────────────
+
+model Prospect {
+  id          String        @id @default(uuid())
+  agencyId    String
+  name        String
+  domain      String?
+  industry    String?
+  size        CompanySize?
+  location    String?
+  website     String?
+  score       Float         @default(0)
+  status      ProspectStatus @default(NEW)
+  contactName String?
+  contactEmail String?
+  contactTitle String?
+  contactPhone String?
+  notes       String?
+  rawData     Json?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  agency      Agency        @relation(fields: [agencyId], references: [id])
+  signals     Signal[]
+  deals       Deal[]
+  enrollments Enrollment[]
+  submissions Submission[]
+
+  @@index([agencyId])
+  @@index([score])
+  @@index([status])
+}
+
+enum CompanySize {
+  SMALL_1_50
+  MID_51_200
+  LARGE_201_1000
+  ENTERPRISE_1001_PLUS
+}
+
+enum ProspectStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  ENGAGED
+  CONVERTED
+  LOST
+}
+
+// ── Signals (hiring intent indicators) ─────────────────────
+
+model SignalSource {
+  id        String     @id @default(uuid())
+  agencyId  String
+  name      String
+  type      SourceType
+  config    Json?
+  active    Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  agency    Agency     @relation(fields: [agencyId], references: [id])
+  signals   Signal[]
+  scanRuns  ScanRun[]
+
+  @@index([agencyId])
+}
+
+enum SourceType {
+  JOB_BOARD
+  FUNDING_API
+  NEWS_FEED
+  LINKEDIN
+  CUSTOM_SCRAPER
+}
+
+model Signal {
+  id         String   @id @default(uuid())
+  agencyId   String
+  prospectId String
+  sourceId   String
+  type       SignalType
+  title      String
+  detail     String?
+  strength   Float    @default(0.5)
+  rawData    Json?
+  detectedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  agency     Agency       @relation(fields: [agencyId], references: [id])
+  prospect   Prospect     @relation(fields: [prospectId], references: [id])
+  source     SignalSource @relation(fields: [sourceId], references: [id])
+
+  @@index([agencyId])
+  @@index([prospectId])
+  @@index([sourceId])
+}
+
+enum SignalType {
+  JOB_POSTING
+  FUNDING_ROUND
+  EXPANSION
+  LEADERSHIP_HIRE
+  LAYOFF_RECOVERY
+  CONTRACT_WIN
+}
+
+model ScanRun {
+  id         String    @id @default(uuid())
+  agencyId   String
+  sourceId   String
+  status     ScanStatus @default(PENDING)
+  startedAt  DateTime?
+  finishedAt DateTime?
+  signalsFound Int     @default(0)
+  error      String?
+  createdAt  DateTime  @default(now())
+
+  agency     Agency       @relation(fields: [agencyId], references: [id])
+  source     SignalSource @relation(fields: [sourceId], references: [id])
+
+  @@index([agencyId])
+  @@index([sourceId])
+}
+
+enum ScanStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+// ── Deals (pipeline) ───────────────────────────────────────
+
+model Deal {
+  id            String    @id @default(uuid())
+  agencyId      String
+  prospectId    String
+  ownerId       String
+  stage         DealStage @default(PROSPECT)
+  title         String
+  value         Float     @default(0)
+  probability   Float     @default(0)
+  nextAction    String?
+  nextActionAt  DateTime?
+  notes         String?
+  wonAt         DateTime?
+  lostAt        DateTime?
+  lostReason    String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  agency        Agency    @relation(fields: [agencyId], references: [id])
+  prospect      Prospect  @relation(fields: [prospectId], references: [id])
+  owner         User      @relation(fields: [ownerId], references: [id])
+
+  @@index([agencyId])
+  @@index([stage])
+  @@index([ownerId])
+}
+
+enum DealStage {
+  PROSPECT
+  CONTACTED
+  MEETING_SCHEDULED
+  PROPOSAL_SENT
+  NEGOTIATION
+  WON
+  LOST
+}
+
+// ── Sequences (outbound email) ─────────────────────────────
+
+model Sequence {
+  id        String         @id @default(uuid())
+  agencyId  String
+  name      String
+  status    SequenceStatus @default(DRAFT)
+  steps     Json           // Array of { order, subject, body, delayDays }
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  agency      Agency       @relation(fields: [agencyId], references: [id])
+  enrollments Enrollment[]
+
+  @@index([agencyId])
+}
+
+enum SequenceStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  ARCHIVED
+}
+
+model Enrollment {
+  id           String           @id @default(uuid())
+  sequenceId   String
+  prospectId   String
+  enrolledById String
+  currentStep  Int              @default(0)
+  status       EnrollmentStatus @default(ACTIVE)
+  lastSentAt   DateTime?
+  nextSendAt   DateTime?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  sequence     Sequence  @relation(fields: [sequenceId], references: [id])
+  prospect     Prospect  @relation(fields: [prospectId], references: [id])
+  enrolledBy   User      @relation(fields: [enrolledById], references: [id])
+
+  @@unique([sequenceId, prospectId])
+  @@index([sequenceId])
+  @@index([prospectId])
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+  BOUNCED
+  REPLIED
+}
+
+// ── Client Portal ──────────────────────────────────────────
+
+model Submission {
+  id          String           @id @default(uuid())
+  agencyId    String
+  prospectId  String
+  type        SubmissionType
+  title       String
+  body        String
+  status      SubmissionStatus @default(PENDING)
+  feedback    String?
+  feedbackAt  DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  agency      Agency   @relation(fields: [agencyId], references: [id])
+  prospect    Prospect @relation(fields: [prospectId], references: [id])
+
+  @@index([agencyId])
+  @@index([prospectId])
+}
+
+enum SubmissionType {
+  CANDIDATE
+  PROPOSAL
+  REPORT
+}
+
+enum SubmissionStatus {
+  PENDING
+  REVIEWED
+  ACCEPTED
+  REJECTED
+}
+
+model PortalInvite {
+  id          String   @id @default(uuid())
+  agencyId    String
+  email       String
+  token       String   @unique @default(uuid())
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  agency      Agency   @relation(fields: [agencyId], references: [id])
+
+  @@index([agencyId])
+  @@index([token])
+}
